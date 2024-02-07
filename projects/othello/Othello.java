@@ -5,12 +5,17 @@ public class Othello extends GridGame {
 
   private static final Color BOARD_COLOR = new Color(0, 0x9e, 0x0d);
   private static final Color[] PIECE_COLORS = new Color[] { Color.BLACK, Color.WHITE };
+  private static final Color[] LEGAL_COLORS = new Color[] {
+    new Color(0f, 0f, 0f, 0.5f),
+    new Color(1f, 1f, 1f, 0.5f)
+  };
 
   private static final int EMPTY = 0;
   private static final int BLACK = 1;
   private static final int WHITE = 2;
 
   private int[][] board = new int[8][8];
+  private boolean[][] legal = new boolean[8][8];
   private int player = BLACK;
 
   public Othello() {
@@ -22,6 +27,8 @@ public class Othello extends GridGame {
     board[3][4] = BLACK;
     board[4][4] = WHITE;
     board[4][3] = BLACK;
+
+    markLegal(player);
   }
 
   /*
@@ -44,6 +51,14 @@ public class Othello extends GridGame {
       int py = cellHeight() - h;
       g.fillOval(px/2, py/2, w, h);
     }
+    if (piece == EMPTY && legal[row][col]) {
+      g.setColor(LEGAL_COLORS[player - 1]);
+      int w = (int)(cellWidth() * 0.9);
+      int h = (int)(cellHeight() * 0.9);
+      int px = cellWidth() - w;
+      int py = cellHeight() - h;
+      g.fillOval(px/2, py/2, w, h);
+    }
   }
 
   /*
@@ -52,9 +67,38 @@ public class Othello extends GridGame {
   public void cellClicked(int row, int col) {
     board[row][col] = player;
     reverse(row, col, player);
-    player = opposite(player);
+    if (markLegal(opposite(player))) {
+      player = opposite(player);
+    }
     repaint();
   }
+
+  private boolean markLegal(int color) {
+    boolean anyLegal = false;
+    for (int r = 0; r < 8; r++) {
+      for (int c = 0; c < 8; c++) {
+        boolean ok = isLegal(r, c, color);
+        legal[r][c] = ok;
+        anyLegal = anyLegal || ok;
+
+      }
+    }
+    return anyLegal;
+  }
+
+  private boolean isLegal(int r, int c, int color) {
+    for (int dx = -1; dx <= 1; dx++) {
+      for (int dy = -1; dy <= 1; dy++) {
+        if (dx != 0 || dy != 0) {
+          if (willReverse(r, c, color, dx, dy)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
 
   /*
    * Given a move at r,c of color make all reversals.
@@ -65,7 +109,7 @@ public class Othello extends GridGame {
     for (int dx = -1; dx <= 1; dx++) {
       for (int dy = -1; dy <= 1; dy++) {
         if (dx != 0 || dy != 0) {
-          if (isAnchored(r, c, color, dx, dy)) {
+          if (willReverse(r, c, color, dx, dy)) {
             reverseInDirection(r, c, color, dx, dy);
           }
         }
@@ -73,15 +117,17 @@ public class Othello extends GridGame {
     }
   }
 
-  private boolean isAnchored(int r, int c, int color, int dx, int dy) {
+  private boolean willReverse(int r, int c, int color, int dx, int dy) {
     int other = opposite(color);
+    int count = 0;
     r += dx;
     c += dy;
     while (inBounds(r, c) && board[r][c] == other)  {
+      count++;
       r += dx;
       c += dy;
     }
-    return inBounds(r, c) && board[r][c] == color;
+    return count > 0 && inBounds(r, c) && board[r][c] == color;
   }
 
   private void reverseInDirection(int r, int c, int color, int dx, int dy) {
