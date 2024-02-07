@@ -1,14 +1,16 @@
-import javax.swing.*;
 import java.awt.Color;
 import java.awt.Graphics2D;
+
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 
 public class Othello extends GridGame {
 
   private static final Color BOARD_COLOR = new Color(0, 0x9e, 0x0d);
   private static final Color[] PIECE_COLORS = new Color[] { Color.BLACK, Color.WHITE };
   private static final Color[] LEGAL_COLORS = new Color[] {
-    new Color(0f, 0f, 0f, 0.5f),
-    new Color(1f, 1f, 1f, 0.5f)
+      new Color(0f, 0f, 0f, 0.5f),
+      new Color(1f, 1f, 1f, 0.5f)
   };
 
   private static final int EMPTY = 0;
@@ -17,13 +19,20 @@ public class Othello extends GridGame {
 
   private int[][] board = new int[8][8];
   private boolean[][] legal = new boolean[8][8];
+  private boolean showLegalMoves = false;
+
   private int player = BLACK;
-  private JLabel playerLabel;
+  private JLabel label;
 
-
-  public Othello(JLabel playerLabel) {
+  public Othello(JLabel label, JCheckBox checkbox) {
     super(8, 8, 3);
-    this.playerLabel = playerLabel;
+    this.label = label;
+    this.showLegalMoves = checkbox.isSelected();
+
+    checkbox.addItemListener(e -> {
+      showLegalMoves = checkbox.isSelected();
+      repaint();
+    });
 
     setBackground(Color.BLACK);
 
@@ -33,6 +42,7 @@ public class Othello extends GridGame {
     board[4][4] = WHITE;
     board[4][3] = BLACK;
 
+    label.setText("Black's turn");
     markLegal(player);
   }
 
@@ -41,7 +51,8 @@ public class Othello extends GridGame {
    * object is essentially the same one you used in the Flag but with a few more
    * methods. See:
    *
-   * https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Graphics2D.html
+   * https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/
+   * Graphics2D.html
    */
   public void paintCell(int row, int col, Graphics2D g) {
     g.setColor(BOARD_COLOR);
@@ -51,20 +62,21 @@ public class Othello extends GridGame {
     if (piece != EMPTY) {
       drawPiece(g, row, col, PIECE_COLORS[piece - 1]);
     }
-    if (piece == EMPTY && legal[row][col]) {
-      drawPiece(g, row, col, LEGAL_COLORS[player - 1]);
+    if (showLegalMoves) {
+      if (piece == EMPTY && legal[row][col]) {
+        drawPiece(g, row, col, LEGAL_COLORS[player - 1]);
+      }
     }
   }
 
   private void drawPiece(Graphics2D g, int row, int col, Color color) {
     g.setColor(color);
-    int w = (int)(cellWidth() * 0.9);
-    int h = (int)(cellHeight() * 0.9);
+    int w = (int) (cellWidth() * 0.9);
+    int h = (int) (cellHeight() * 0.9);
     int px = cellWidth() - w;
     int py = cellHeight() - h;
-    g.fillOval(px/2, py/2, w, h);
+    g.fillOval(px / 2, py / 2, w, h);
   }
-
 
   /*
    * This method will be called for you when the user clicks a cell in the grid.
@@ -75,22 +87,22 @@ public class Othello extends GridGame {
       reverse(row, col, player);
       if (markLegal(opposite(player))) {
         player = opposite(player);
-        playerLabel.setText((player == BLACK ? "Black" : "White") + "'s turn");
+        label.setText((player == BLACK ? "Black" : "White") + "'s turn");
       } else {
         if (!markLegal(player)) {
-          playerLabel.setText(result());
+          label.setText(result());
         }
       }
       repaint();
     }
   }
 
-
   private int countColor(int color) {
     int count = 0;
     for (int r = 0; r < 8; r++) {
       for (int c = 0; c < 8; c++) {
-        if (board[r][c] == color) count++;
+        if (board[r][c] == color)
+          count++;
       }
     }
     return count;
@@ -135,7 +147,6 @@ public class Othello extends GridGame {
     return false;
   }
 
-
   /*
    * Given a move at r,c of color make all reversals.
    */
@@ -158,7 +169,7 @@ public class Othello extends GridGame {
     int count = 0;
     r += dx;
     c += dy;
-    while (inBounds(r, c) && board[r][c] == other)  {
+    while (inBounds(r, c) && board[r][c] == other) {
       count++;
       r += dx;
       c += dy;
@@ -170,7 +181,7 @@ public class Othello extends GridGame {
     int other = opposite(color);
     r += dx;
     c += dy;
-    while (inBounds(r, c) && board[r][c] == other)  {
+    while (inBounds(r, c) && board[r][c] == other) {
       board[r][c] = color;
       r += dx;
       c += dy;

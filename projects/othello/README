@@ -2,21 +2,23 @@
 
 ## Done
 
-Two player Othello game (a.k.a. Reversi)
+- Two player Othello game (a.k.a. Reversi)
 
-Players take turns.
+- Players take turns.
 
-Disallows illegal moves
+- Disallows illegal moves
 
-Pieces reverse automatically.
+- Pieces reverse automatically.
 
-Stays on correct player if one player has no legal move.
+- Stays on correct player if one player has no legal move.
 
-Show score at end
+- Show score at end
+
+- Optional legal move guides.
 
 ## To do
 
-Optional legal move guides.
+- *nothing*
 
 # Steps
 
@@ -36,6 +38,4 @@ Optional legal move guides.
 
 - ~~Detect end of game (no legal moves)~~
 
-- Add checkbox to turn legal move guides on and off
-
-- Add score label.
+- ~~Add checkbox to turn legal move guides on and off~~

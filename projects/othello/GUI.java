@@ -1,5 +1,11 @@
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class GUI {
 
@@ -10,10 +16,17 @@ public class GUI {
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setSize(600, 600);
 
-    JLabel player = new JLabel("Black's turn", SwingConstants.CENTER);
+    JLabel label = new JLabel("", SwingConstants.CENTER);
+    JCheckBox checkbox = new JCheckBox();
+    Box b = new Box(BoxLayout.X_AXIS);
+    b.add(Box.createHorizontalGlue());
+    b.add(new JLabel("Show legal moves: "));
+    b.add(checkbox);
+    b.add(Box.createHorizontalStrut(10));
 
-    frame.add(new Othello(player));
-    frame.add(player, BorderLayout.SOUTH);
+    frame.add(new Othello(label, checkbox));
+    frame.add(label, BorderLayout.SOUTH);
+    frame.add(b, BorderLayout.NORTH);
 
     frame.setVisible(true);
     frame.setLocationRelativeTo(null);
