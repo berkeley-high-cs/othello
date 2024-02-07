@@ -1,8 +1,6 @@
-# Othello
+# Big picture
 
-## Big picture
-
-### Done
+## Done
 
 Two player Othello game (a.k.a. Reversi)
 
@@ -12,13 +10,15 @@ Disallows illegal moves
 
 Pieces reverse automatically.
 
-### To do
-
 Stays on correct player if one player has no legal move.
 
-Keeps count of score.
+Show score at end
 
-## Steps
+## To do
+
+Optional legal move guides.
+
+# Steps
 
 - ~~Draw basic green board.~~
 
