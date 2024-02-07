@@ -1,0 +1,41 @@
+# Big picture
+
+## Done
+
+- Two player Othello game (a.k.a. Reversi)
+
+- Players take turns.
+
+- Disallows illegal moves
+
+- Pieces reverse automatically.
+
+- Stays on correct player if one player has no legal move.
+
+- Show score at end
+
+- Optional legal move guides.
+
+## To do
+
+- *nothing*
+
+# Steps
+
+- ~~Draw basic green board.~~
+
+- ~~Put pieces on board for initial position.~~
+
+- ~~Put circles on board on click~~
+
+- ~~Implement reversal~~
+
+- ~~Detect legal moves, both for preventing illegal moves and skipping turns~~
+
+- ~~Disallow illegal moves~~
+
+- ~~Add some labels to indicate whose move it is.~~
+
+- ~~Detect end of game (no legal moves)~~
+
+- ~~Add checkbox to turn legal move guides on and off~~
