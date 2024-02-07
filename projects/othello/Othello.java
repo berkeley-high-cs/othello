@@ -77,7 +77,9 @@ public class Othello extends GridGame {
         player = opposite(player);
         playerLabel.setText((player == BLACK ? "Black" : "White") + "'s turn");
       } else {
-        markLegal(player);
+        if (!markLegal(player)) {
+          playerLabel.setText("Game over");
+        }
       }
       repaint();
     }
