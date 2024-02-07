@@ -51,7 +51,46 @@ public class Othello extends GridGame {
    */
   public void cellClicked(int row, int col) {
     board[row][col] = player;
-    player = player % 2 + 1;
+    reverse(row, col, player);
+    player = opposite(player);
     repaint();
   }
+
+  /*
+   * Given a move at r,c of color make all reversals.
+   */
+  private void reverse(int r, int c, int color) {
+    // In each of eight directions, walk until you find a anchor and reverse all
+    // opposite color stones on the way.
+    for (int dx = -1; dx <= 1; dx++) {
+      for (int dy = -1; dy <= 1; dy++) {
+        if (dx != 0 || dy != 0) {
+          reverseInDirection(r, c, color, dx, dy);
+        }
+      }
+    }
+  }
+
+  private void reverseInDirection(int r, int c, int color, int dx, int dy) {
+    int other = opposite(color);
+    r += dx;
+    c += dy;
+    while (inBounds(r, c) && board[r][c] == other)  {
+      board[r][c] = color;
+      r += dx;
+      c += dy;
+    }
+  }
+
+  private boolean inBounds(int r, int c) {
+    return 0 <= r && r < 8 && 0 <= c && c < 8;
+  }
+
+
+  private int opposite(int player) {
+    return player % 2 + 1;
+  }
+
+
+
 }
