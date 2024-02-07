@@ -1,4 +1,5 @@
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
 
 public class GUI {
 
@@ -8,7 +9,12 @@ public class GUI {
     JFrame frame = new JFrame(TITLE);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setSize(600, 600);
-    frame.add(new Othello());
+
+    JLabel player = new JLabel("Black's turn", SwingConstants.CENTER);
+
+    frame.add(new Othello(player));
+    frame.add(player, BorderLayout.SOUTH);
+
     frame.setVisible(true);
     frame.setLocationRelativeTo(null);
   }

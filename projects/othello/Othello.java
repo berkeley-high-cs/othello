@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
@@ -17,9 +18,13 @@ public class Othello extends GridGame {
   private int[][] board = new int[8][8];
   private boolean[][] legal = new boolean[8][8];
   private int player = BLACK;
+  private JLabel playerLabel;
 
-  public Othello() {
+
+  public Othello(JLabel playerLabel) {
     super(8, 8, 3);
+    this.playerLabel = playerLabel;
+
     setBackground(Color.BLACK);
 
     // Starting position or Othello
@@ -70,6 +75,9 @@ public class Othello extends GridGame {
       reverse(row, col, player);
       if (markLegal(opposite(player))) {
         player = opposite(player);
+        playerLabel.setText((player == BLACK ? "Black" : "White") + "'s turn");
+      } else {
+        markLegal(player);
       }
       repaint();
     }

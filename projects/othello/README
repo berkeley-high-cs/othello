@@ -37,3 +37,5 @@ Keeps count of score.
 - Add checkbox to turn legal move guides on and off
 
 - Add score label.
+
+- Detect end of game (no legal moves)
