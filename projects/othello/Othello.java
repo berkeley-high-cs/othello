@@ -65,12 +65,14 @@ public class Othello extends GridGame {
    * This method will be called for you when the user clicks a cell in the grid.
    */
   public void cellClicked(int row, int col) {
-    board[row][col] = player;
-    reverse(row, col, player);
-    if (markLegal(opposite(player))) {
-      player = opposite(player);
+    if (legal[row][col]) {
+      board[row][col] = player;
+      reverse(row, col, player);
+      if (markLegal(opposite(player))) {
+        player = opposite(player);
+      }
+      repaint();
     }
-    repaint();
   }
 
   private boolean markLegal(int color) {
@@ -90,7 +92,7 @@ public class Othello extends GridGame {
     for (int dx = -1; dx <= 1; dx++) {
       for (int dy = -1; dy <= 1; dy++) {
         if (dx != 0 || dy != 0) {
-          if (willReverse(r, c, color, dx, dy)) {
+          if (board[r][c] == EMPTY && willReverse(r, c, color, dx, dy)) {
             return true;
           }
         }
