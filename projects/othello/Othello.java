@@ -78,10 +78,34 @@ public class Othello extends GridGame {
         playerLabel.setText((player == BLACK ? "Black" : "White") + "'s turn");
       } else {
         if (!markLegal(player)) {
-          playerLabel.setText("Game over");
+          playerLabel.setText(result());
         }
       }
       repaint();
+    }
+  }
+
+
+  private int countColor(int color) {
+    int count = 0;
+    for (int r = 0; r < 8; r++) {
+      for (int c = 0; c < 8; c++) {
+        if (board[r][c] == color) count++;
+      }
+    }
+    return count;
+  }
+
+  private String result() {
+    int black = countColor(BLACK);
+    int white = countColor(WHITE);
+    if (black == white) {
+      return "Tie!";
+    } else {
+      String winner = black > white ? "Black" : "White";
+      int high = Math.max(black, white);
+      int low = Math.min(black, white);
+      return winner + " wins, " + high + " to " + low;
     }
   }
 

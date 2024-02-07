@@ -32,10 +32,10 @@ Keeps count of score.
 
 - ~~Disallow illegal moves~~
 
-- Add some labels to indicate whose move it is.
+- ~~Add some labels to indicate whose move it is.~~
+
+- ~~Detect end of game (no legal moves)~~
 
 - Add checkbox to turn legal move guides on and off
 
 - Add score label.
-
-- Detect end of game (no legal moves)
