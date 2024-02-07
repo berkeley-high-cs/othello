@@ -65,10 +65,23 @@ public class Othello extends GridGame {
     for (int dx = -1; dx <= 1; dx++) {
       for (int dy = -1; dy <= 1; dy++) {
         if (dx != 0 || dy != 0) {
-          reverseInDirection(r, c, color, dx, dy);
+          if (isAnchored(r, c, color, dx, dy)) {
+            reverseInDirection(r, c, color, dx, dy);
+          }
         }
       }
     }
+  }
+
+  private boolean isAnchored(int r, int c, int color, int dx, int dy) {
+    int other = opposite(color);
+    r += dx;
+    c += dy;
+    while (inBounds(r, c) && board[r][c] == other)  {
+      r += dx;
+      c += dy;
+    }
+    return inBounds(r, c) && board[r][c] == color;
   }
 
   private void reverseInDirection(int r, int c, int color, int dx, int dy) {
@@ -86,11 +99,8 @@ public class Othello extends GridGame {
     return 0 <= r && r < 8 && 0 <= c && c < 8;
   }
 
-
   private int opposite(int player) {
     return player % 2 + 1;
   }
-
-
 
 }
