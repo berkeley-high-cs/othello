@@ -11,6 +11,7 @@ public class Othello extends GridGame {
   private static final int WHITE = 2;
 
   private int[][] board = new int[8][8];
+  private int player = BLACK;
 
   public Othello() {
     super(8, 8, 3);
@@ -49,7 +50,8 @@ public class Othello extends GridGame {
    * This method will be called for you when the user clicks a cell in the grid.
    */
   public void cellClicked(int row, int col) {
-
+    board[row][col] = player;
+    player = player % 2 + 1;
     repaint();
   }
 }
