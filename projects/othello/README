@@ -14,9 +14,11 @@ Stays on correct player if one player has no legal move.
 
 Keeps count of score.
 
-## Next steps
+## Steps
 
-- Draw basic green board.
+- ~~Draw basic green board.~~
+
+- ~~Put pieces on board for initial position.~~
 
 - Put circles on board on click
 
